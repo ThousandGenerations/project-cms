@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-08 20:57:46
- * @LastEditTime: 2020-06-09 23:29:54
+ * @LastEditTime: 2020-06-10 22:40:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\note.md
@@ -195,7 +195,44 @@
           this.getSubjectList(current,size)
         }
         ```
-  
-  
-
-  
+### 点击一级菜单,显示二级菜单
+* API
+  * `expandedRowKeys` 对展开的行进行控制
+  * `onExpandedRowsChange` 展开行的时候触发的方法 ,会将展开的行添加到数组中
+* mock二级菜单数据
+  * 问题:
+    * 大家二级菜单服务器路由的时候,没有效果,请求进不去
+  * 原因分析:
+    * 首先二级菜单写在了一级菜单下面,一级菜单的请求路径为`"/admin/edu/subject/:page/:limit"`,二级菜单为`"/admin/edu/subject/get/:parentId"`,请求过来之后,上面两个地址都会命中`/admin/edu/subject/:page/:limit"`,后面路由就不会执行,所以请求不会进来
+    * 解决:二级菜单必须发放在前面 直接命中二级菜单
+  * 问题:
+    * 模拟数据,当数据之后一条的时候,返回的是一个对象而不是数组
+  * 原因分析:
+    * mock机制问题,当数组里面的元素是一个个对象的时候,这个时候随机数据只有一个元素,那么就会只有这个元素的对象,忽略数组
+  * 解决:
+    * 判断总数的长度,如果为 1 ,将数据修改为数组  `if(total === 1) data.items = [data.items]`
+  * 步骤:
+    * 获取请求参数params
+    * 模拟数据
+    * 返回响应
+* 使用 redux 管理数据
+  * 步骤
+    * 定义 API 获取二级分类的分页列表数据
+    * 定义常量模块
+    * 定义同步 action 获取二级课程分类数据
+    * 定义异步 action 返回 dispatch 发送请求返回数据
+    * 定义 reducer 生成新 state 
+* 在组件中显示数据
+  * 在 `onExpandedRowsChange` 回调中定义展开行的方法
+  * 展开的时候应该发送请求并更新组件状态,关闭的时候只应该更新组件,不应该发送请求
+### 点击'新建'按钮,跳转到添加课程界面并添加数据
+* 注意: 使用 `express` 框架时,默认不解析请求体数据 必须使用中间件解析POST\PUT请求的请求体参数
+* 实现步骤
+  * 显示'新建页面',调用路由
+  * 新建组件并在 `config/asyncCompos` 中统一暴露
+  * `antd` 表单组件配合工厂函数组件使用
+  * 搭建结构
+  * 前端验证,验证成功后提示添加数据成功,之后跳回列表页面查看数据
+  * 使用Hooks定义工厂函数生命周期函数
+  * 在生命周期函数中发送请求请求数据
+  * 点击加载更多加载一份全新数据

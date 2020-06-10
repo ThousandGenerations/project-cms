@@ -1,4 +1,13 @@
 /*
+ * @Author: your name
+ * @Date: 2020-06-08 20:56:00
+ * @LastEditTime: 2020-06-10 23:58:35
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \React-project-cms\src\config\asyncComps.js
+ */
+
+/*
   将所有组件引入模块
 */
 import { lazy } from "react";
@@ -22,6 +31,8 @@ const Subject = () => lazy(() => import("@pages/Edu/Subject"));
 const Teacher = () => lazy(() => import("@pages/Edu/Teacher"));
 const Settings = () => lazy(() => import("@pages/User/Settings"));
 const Center = () => lazy(() => import("@pages/User/Center"));
+const AddSubject = () =>
+  lazy(() => import("../pages/Edu/Subject/components/AddSubject"));
 
 export default {
   Admin,
@@ -39,4 +50,5 @@ export default {
   Teacher,
   Settings,
   Center,
+  AddSubject,
 };
