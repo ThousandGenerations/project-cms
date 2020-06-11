@@ -1,16 +1,24 @@
 /*
  * @Author: your name
  * @Date: 2020-06-10 09:43:45
- * @LastEditTime: 2020-06-11 01:40:17
+ * @LastEditTime: 2020-06-11 21:00:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\src\pages\Edu\Subject\redux\actions.js
  */
 
 // 引入请求api
-import { reqGetSubjectList, reqGetSubSubjectList } from "@api/edu/subject";
+import {
+  reqGetSubjectList,
+  reqGetSubSubjectList,
+  reqUpdateSubject,
+} from "@api/edu/subject";
 // 引入常量模块
-import { GET_SUBJECT_LIST, GET_SUB_SUBJECT_LIST } from "./constants";
+import {
+  GET_SUBJECT_LIST,
+  GET_SUB_SUBJECT_LIST,
+  UPDATE_SUBJECT,
+} from "./constants";
 
 /*
   获取一级课程分类数据
@@ -50,6 +58,23 @@ export const getSubSubjectList = (parentId) => {
         getSubSubjectListSync({ parentId, subSubjectList: response.items })
       );
       return response;
+    });
+  };
+};
+
+// 更新分类的数据
+const updateSubjectSync = (subject) => ({
+  type: UPDATE_SUBJECT,
+  data: subject,
+});
+
+// 异步action
+export const updateSubject = (title, id) => {
+  return (dispatch) => {
+    return reqUpdateSubject(title, id).then((response) => {
+      const subject = { title, _id: id };
+      dispatch(updateSubjectSync(subject));
+      return subject;
     });
   };
 };

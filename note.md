@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-08 20:57:46
- * @LastEditTime: 2020-06-10 22:40:36
+ * @LastEditTime: 2020-06-11 23:18:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\note.md
@@ -236,3 +236,37 @@
   * 使用Hooks定义工厂函数生命周期函数
   * 在生命周期函数中发送请求请求数据
   * 点击加载更多加载一份全新数据
+### 点击编辑按钮进入更新模式
+* `render`方法接收什么数据?
+  * 默认是接收包含所有数据的值
+  * 也有特殊情况,如果有`dataIndex`,假如`dataIndex`值为`title`,render方法就只接受title的值
+  * 步骤:
+    * 绑定点击事件传递`render`接收数据`subject`,返回一个事件回调的方式
+    * 定义方法,返回事件回调
+    * 判断状态中subjectID有没有值,如果有就说明用户还没有退出编辑模式,此时不能进行其他操作,提示并return
+    * 更新状态,将subject._id的值给到状态的subjectId
+    * render方法中获取状态的值,进行判断,如果点击的id和状态中id相等,就显示input输入框,否则就显示原本的纯文本数据
+    * 处于编辑模式,按钮应该切换为确认和取消,同样是在操作列进行判断,状态中id和目标id一致,则进行按钮切换
+    * 受控组件收集数据
+    * 触发更新或者取消回调
+    * 定义Redux,API请求
+    * 数据一致/数据为空,不应该发送请求
+    * 成功之后退出编辑状态
+    * 删除数据,删除数据并不是多组件共享状态,所以不需要使用redux进行管理
+
+### 章节管理组件
+* 请求所有课程数据
+* 首先查看API,想要获取所有课程数据,得先有讲师数据
+  * 添加讲师数据
+  * 添加课程详细信息
+  * 定义API --> 所有课程数据
+  * 定义异步action获取所有课程数据到同步action
+  * 在reducer中定义数据状态
+  * 在页面显示
+    * search组件
+      * antd的form函数组件Hooks
+        ```js
+        // Form组件提供hooks函数 useForm（只能在工厂函数组件使用，不能在ES6类组件使用）
+        // 该函数作用就是提供一个form对象，让我们可以对表单进行各种操作
+        const [form] = Form.useForm();
+        ```

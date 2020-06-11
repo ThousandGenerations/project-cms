@@ -30,6 +30,7 @@ function AddSubject({ total, getSubjectList, history }) {
   };
   // 工厂函数组件生命周期函数
   useEffect(() => {
+    page = 1; // 每次调用初始化生命周期函数加载组件的时候,重置page
     const fetchData = async () => {
       // 第二个参数传入空数组,代表当前函数只会执行一次,相当于ComponentDidMount
       const items = await getSubjectList(page++, 10);
