@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-08 20:56:00
- * @LastEditTime: 2020-06-11 21:11:50
+ * @LastEditTime: 2020-06-13 15:06:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\src\api\edu\subject.js
@@ -61,5 +61,13 @@ export function reqDelSubject(id) {
   return request({
     url: `${BASE_URL}/remove/${id}`,
     method: "DELETE",
+  });
+}
+
+// 获取所有一级课程分类
+export function reqGetAllSubjectList() {
+  return request({
+    url: `${BASE_URL}`,
+    method: "GET",
   });
 }

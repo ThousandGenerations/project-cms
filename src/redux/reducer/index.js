@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-08 20:56:00
- * @LastEditTime: 2020-06-11 22:27:49
+ * @LastEditTime: 2020-06-13 21:27:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\src\redux\reducer\index.js
@@ -19,6 +19,7 @@ import { menuList } from "@pages/Acl/Permission/redux";
 // @qiandai Subject模块的状态数据
 import { subjectList } from "@pages/Edu/Subject/redux";
 import { chapter } from "@pages/Edu/Chapter/redux";
+import { courseList } from "@pages/Edu/Course/redux";
 export default combineReducers({
   loading,
   user,
@@ -28,4 +29,5 @@ export default combineReducers({
   menuList,
   subjectList,
   chapter,
+  courseList,
 });

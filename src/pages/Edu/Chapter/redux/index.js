@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-06-11 21:41:11
- * @LastEditTime: 2020-06-11 22:31:55
+ * @LastEditTime: 2020-06-12 19:40:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\src\pages\Edu\Chapter\redux\index.js
  */
 import chapter from "./reducer";
 
-import { getAllCourseList } from "./actions";
+import { getAllCourseList, getChapterList, getLessonList } from "./actions";
 
-export { chapter, getAllCourseList };
+export { chapter, getAllCourseList, getChapterList, getLessonList };

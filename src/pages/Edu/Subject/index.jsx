@@ -99,7 +99,7 @@ class Subject extends Component {
     };
   };
 
-  // 受控组件收集标配单数据
+  // 受控组件收集表单数据
   handleInputChange = (e) => {
     this.setState({
       updateSubjectTitle: e.target.value,
@@ -153,7 +153,7 @@ class Subject extends Component {
           message.success("删除成功");
           // 请求新的分页数据
           const { current, pageSize } = this.state;
-          // 如果删除数据只有一条,应该跳转到第一页,条件是大于1,页数 至少2 ,删除分类是一级分类
+          // 如果删除数据只有一条,应该跳转到前一页,条件是大于1,页数 至少2 ,删除分类是一级分类
           if (
             current > 1 &&
             this.props.subjectList.length === 1 &&

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-08 20:56:00
- * @LastEditTime: 2020-06-10 23:58:35
+ * @LastEditTime: 2020-06-12 20:41:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\src\config\asyncComps.js
@@ -33,6 +33,8 @@ const Settings = () => lazy(() => import("@pages/User/Settings"));
 const Center = () => lazy(() => import("@pages/User/Center"));
 const AddSubject = () =>
   lazy(() => import("../pages/Edu/Subject/components/AddSubject"));
+const AddLesson = () =>
+  lazy(() => import("@pages/Edu/Chapter/components/AddLesson"));
 
 export default {
   Admin,
@@ -51,4 +53,5 @@ export default {
   Settings,
   Center,
   AddSubject,
+  AddLesson,
 };
