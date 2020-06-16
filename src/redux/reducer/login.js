@@ -1,16 +1,23 @@
-import { LOGIN_SUCCESS, REMOVE_TOKEN } from "../constants/login";
+/*
+ * @Author: your name
+ * @Date: 2020-06-08 20:56:00
+ * @LastEditTime: 2020-06-16 20:18:37
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \React-project-cms\src\redux\reducer\login.js
+ */
+
+import { LOGIN, LOGOUT } from "../constants/login";
 
 const initToken = localStorage.getItem("user_token") || "";
 
-function token(prevState = initToken, action) {
+export default function token(prevState = initToken, action) {
   switch (action.type) {
-    case LOGIN_SUCCESS:
-      return action.data.token;
-    case REMOVE_TOKEN:
+    case LOGIN:
+      return action.data;
+    case LOGOUT:
       return "";
     default:
       return prevState;
   }
 }
-
-export default token;

@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-
+import PubSub from "pubsub-js";
 import SiderMenu from "../SiderMenu";
 import { AuthorizedRouter } from "@comps/Authorized";
 import { logout } from "@redux/actions/login";
@@ -48,13 +48,19 @@ class PrimaryLayout extends Component {
   logout = ({ key }) => {
     if (key !== "2") return;
     this.props.logout().then(() => {
-      localStorage.removeItem("user_token");
+      localStorage.removeItem("USER_TOKEN");
       this.props.resetUser();
       this.props.history.replace("/login");
     });
   };
+  handleClick = ({ item, key, keyPath, domEvent }) => {
+    console.log(key, keyPath);
+    PubSub.publish("REACTIVE_DATA", key);
+  };
+  handleSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {};
+
   langMenu = (
-    <Menu>
+    <Menu onClick={this.handleClick} selectable onSelect={this.handleSelect}>
       <Menu.Item key="zh">中文</Menu.Item>
       <Menu.Item key="en">English</Menu.Item>
     </Menu>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-08 20:57:46
- * @LastEditTime: 2020-06-14 16:56:23
+ * @LastEditTime: 2020-06-17 00:10:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \React-project-cms\note.md
@@ -652,3 +652,172 @@
           });
         ```
       * 显示数据
+### 对首页进行布局
+  * 可视化数据
+    * 在页面上以图形化方式显示数据,让数据栩栩如生,非常美观
+  * 箭头指示
+    * 使用图标进行箭头指示
+      * 上箭头 `<CaretUpOutlined style={{ color: "red" }} />`
+      * 下箭头 `<CaretDownOutlined style={{ color: "green" }} />`
+    * 面积图
+      * antd官方提供的已经不能满足需求,找社区精选组件 `AntV` `https://antv.vision/zh`
+      * 需要下载库 `bizcharts`
+      * 需要组件 `<AreaChart/>` 面积图
+      ```jsx
+      // 解构使用
+      import { AreaChart } from 'bizcharts';
+      function APP() {
+        return <AreaChart {...options} />;
+      }
+      // API文档 https://bizcharts.net/product/BizCharts4/category/77/page/118
+      ```
+    * 柱状图
+      * 组件 `<Chart> <Interval/> <Chart/>`
+    * antd日期组件
+      * 选择日期范围
+      ```jsx
+          {/* value:日期 onChange: 日期范围发生变化触发的回调 */}
+        <RangePicker value={rangeTime} onChange={this.rangePickerChange} />
+      ```
+        * value中保存着`moment`对象,存储当前日期和选择日期,当用户点击选择日期范围的时候,定义状态将范围修改到指定值
+        ```jsx
+        // 定义状态
+        state = {
+          tabKey: "sales", //初始选中的key
+          datePicker: "day", //初始选中按钮状态
+          rangeTime: [
+            // 传入当前日期和一个格式化的标准
+            moment(moment().format(dateFormat), dateFormat),
+            moment(moment().format(dateFormat), dateFormat),
+          ],
+        };
+
+
+        // 点击tab标签的时候触发的回调,更新状态
+        // 应该传入当前被选中的tab的key,也就是activeTabKey传入的状态
+        // 再点击是更新状态为当前选中的key就能切换
+        handleTabChange = (tabKey) => {
+          console.log(tabKey);
+          this.setState({
+            tabKey, // 更新状态为当前选中的key(ES6对象简写)
+          });
+        };
+
+
+        // onChange	日期范围发生变化的回调 ,第一个参数得到的是数组 里面有两个 moment 对象,分别是当前日期和选择日期
+        // 第二个得到的是数组里面连个字符串形式的日期 也是当前日期和选中日期
+        rangePickerChange = (dates, dateStrings) => {
+          // console.log(dates, dateStrings);
+          // const { rangeTime } = this.state;
+
+          // console.log(rangeTime);
+          // 上面打印看出 dates 和 rangeTime条件符合,直接设置
+          this.setState({ rangeTime: dates });
+        };
+
+
+        // 选中右边tab 按钮的时候触发的回调
+        // 接收参数 返回回调
+        changeDatePicker = (datePicker) => {
+          return () => {
+            // 获取当前时间
+            const time = moment(moment().format(dateFormat));
+            let rangeTime = null;
+
+            switch (datePicker) {
+              case "year":
+                rangeTime = [
+                  time, // 当前时间
+                  moment(moment().add(1, "y").format(dateFormat), dateFormat), //一年后
+                ];
+                break;
+              // 下面是一样的
+              case "mouth":
+                rangeTime = [
+                  time,
+                  moment(moment().add(1, "M").format(dateFormat), dateFormat),
+                ];
+                break;
+              case "week":
+                rangeTime = [
+                  time,
+                  moment(moment().add(7, "d").format(dateFormat), dateFormat),
+                ];
+                break;
+              default:
+                rangeTime = [time, time];
+                break;
+            }
+            // 更新的datePicker(当前选中日期范围) 和 rangeTime 状态
+            this.setState({ datePicker, rangeTime });
+          };
+        };
+
+
+        // 获取状态中的值
+        const { tabKey, datePicker, rangeTime } = this.state;
+        // 定义一个card右上角将要显示的内容,因为要用到状态,所以要定义在this上
+        const extra = (
+          <div>
+            <Button
+              type={datePicker === "day" ? "link" : "text"}
+              onClick={this.changeDatePicker("day")}
+            今日
+        </Button>
+          </div>
+
+
+        // 渲染的组件
+          <Card
+            style={{ width: "100%", marginBottom: 20 }}
+            // 定义状态,便于切换
+            activeTabKey={tabKey} // 当前激活页签的 key(被选中的tab)
+            tabList={tabList} // tabList左侧显示的内容
+            tabBarExtraContent={extra} // tab bar 上额外的元素,也就是card右上角显示区域的内容
+            onTabChange={this.handleTabChange}
+          >
+            {/* 渲染card里面的数据,正好对应的就是当前选中的标签页 */}
+            {contentList[tabKey]}
+        </Card>
+        ```
+### 登录功能实现
+* 登录方式
+  * 账户密码登录
+    1. 收集数据
+    ```jsx
+    1. 使用antd的Form组件表单的功能,检验并收集全部表单数据
+      <Form onFinish={finish}></Form>
+      <Button htmlType="submit">xxx</Button>
+      // finish方法在点击 htmlType属性为submit的按钮时会自动检验所有表单内容并收集数据 --> 成功之后才会返回数据,失败就会报错
+    ```
+    ```jsx
+    2. 使用form实例对象功能,检验并收集部分表单数据
+    const [form] = useForm() // 创建 antd 提供的hooks 
+    <Form form={form}></Form> // 绑定 form  
+    form.validateFields(['xxx']) // 使用
+    ```
+    2. 发送请求
+      * 定义API
+      * 看数据情况,分析要不要用 redux (就是看回来的数据是否有多个组件使用)
+        * 如果没有多个组件使用这条数据
+          * 直接在组件中调用API接口发送请求
+        * 如果有多个组件使用
+          * 定义 `redux` ,使用 `connect` 容器组件装饰UI组件的方式实现多组件共享数据
+    3. 记住密码
+      * 就是看要不要进行本地持久化存储
+    4. 提示登录成功并跳转到首页
+      * 首先看当前组件是不是路由组件(看组件是不是通过Router加载)
+      * 如果不是就需要用withRouter高阶组件(装饰器语法)给组件传递路由组件三大属性
+  * 手机验证码登录
+    1. 发送验证码
+       * 检验手机号有没有输入并且合不合法
+       * 只有正确的话才能发送请求
+       * 切换按钮状态
+         * 不能点击:控制按钮的 `disable` 属性,通过定义状态改变
+         * 按钮显示倒计时
+    2. 倒计时功能:
+      * 坑: 定时器中内没有办法一直更新状态,值只能更新一次,页面一直在更新(值没有变化)
+        * Hooks 函数不能再定时器和循环中使用,只能生效一次
+      * 值不用进行状态的管理,定义变量,通过setState更新状态即可
+    3. 输入验证码,点击登录,收集数据
+    4. 发送请求,登录,跳转首页
