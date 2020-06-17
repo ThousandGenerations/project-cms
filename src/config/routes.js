@@ -1,7 +1,7 @@
 import Login from "@pages/Login";
 import NotFound from "@pages/404";
-
-//#region 
+import Oauth from "@pages/Login/components/Oauth";
+//#region
 /* export const asyncRoutes = [
 	{
 		path: "/acl",
@@ -192,24 +192,30 @@ import NotFound from "@pages/404";
 
 // 常量路由
 export const constantRoutes = [
-	{
-		path: "/login",
-		component: Login,
-		title: "登录",
-	},
-	{ path: "*", component: NotFound },
+  {
+    path: "/login",
+    component: Login,
+    title: "登录",
+  },
+
+  {
+    title: "授权登录",
+    path: "/oauth",
+    component: Oauth,
+  },
+  { path: "*", component: NotFound },
 ];
 
 /**
  * 登录后 默认路由
  */
 export const defaultRoutes = [
-	// 首页
-	{
-		path: "/",
-		component: "Admin",
-		icon: "home",
-		name: "后台管理系统",
-	},
-	// { path: "*", redirect: "/404", component: NotFound, hidden: true }
+  // 首页
+  {
+    path: "/",
+    component: "Admin",
+    icon: "home",
+    name: "后台管理系统",
+  },
+  // { path: "*", redirect: "/404", component: NotFound, hidden: true }
 ];

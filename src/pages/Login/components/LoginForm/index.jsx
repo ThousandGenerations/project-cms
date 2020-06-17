@@ -14,6 +14,7 @@ import "./index.less";
 import { resolveOnChange } from "antd/lib/input/Input";
 import { reqSendCode } from "@api/acl/oauth";
 import { login, mobileLogin } from "@redux/actions/login";
+import { CLIENT_ID } from "@conf/oauth";
 const { TabPane } = Tabs;
 // 定义密码格式验证规则
 const reg = /^[a-zA-Z0-9_]+$/;
@@ -153,6 +154,20 @@ function LoginForm({ login, mobileLogin, history }) {
   const validateMessages = {
     required: "请输入${name}!",
   };
+
+  // 第三方github登录账号
+  // 第一步 跳转到github授权地址
+
+  /* 
+      客户编号
+      c408e382f9c8a0dde78c
+      客户机密
+      cd020b8a9fd6a7d650e81a213c1152399d58d38c
+  */
+  const goGithub = () => {
+    // 跳转
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`;
+  };
   return (
     <Form
       form={form}
@@ -252,7 +267,7 @@ function LoginForm({ login, mobileLogin, history }) {
         <Form.Item style={{ float: "left" }}>
           <div>
             <span>其他登录方式</span>
-            <GithubOutlined className="icons" />
+            <GithubOutlined className="icons" onClick={goGithub} />
             <WechatOutlined className="icons" />
             <QqOutlined className="icons" />
           </div>
